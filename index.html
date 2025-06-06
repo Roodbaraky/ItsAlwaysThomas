@@ -143,7 +143,7 @@
 
   function spin() {
     if (spinning) return;
-    const winnerIndex = names.indexOf(riggedWinner);
+    const winnerIndex = names.findIndex(n => n.toLowerCase() === riggedWinner.toLowerCase());
     if (winnerIndex === -1) {
       alert("Rigged winner not in list!");
       return;
@@ -187,7 +187,7 @@
     document.getElementById('winnerDisplay').textContent = `Winner: ${winner}`;
     triggerConfetti();
 
-    if (winner === riggedWinner) {
+    if (winner.toLowerCase() === riggedWinner) {
       const img = document.getElementById('winnerImage');
       img.classList.add('show');
       setTimeout(() => {
