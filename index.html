@@ -50,6 +50,34 @@
       display: block;
       opacity: 1;
     }
+    #angryContainer {
+      display: none;
+    }
+    #angryImage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: auto;
+      border: 5px solid red;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      z-index: 10001;
+    }
+    #angryText {
+      position: fixed;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.8em;
+      color: red;
+      background: #fff;
+      padding: 10px 20px;
+      border: 2px solid red;
+      border-radius: 10px;
+      z-index: 10002;
+    }
   </style>
 </head>
 <body>
@@ -59,6 +87,10 @@
 <canvas id="wheelCanvas" width="400" height="400"></canvas>
 <div id="winnerDisplay"></div>
 <img id="winnerImage" src="winner.jpg" alt="Winner Image">
+<div id="angryContainer">
+  <img id="angryImage" src="angry-geoff.png" alt="Angry Geoff">
+  <div id="angryText">I think you're forgetting someone!</div>
+</div>
 
 <div class="controls">
   <input type="text" id="nameInput" placeholder="Enter name">
@@ -144,8 +176,13 @@
   function spin() {
     if (spinning) return;
     const winnerIndex = names.findIndex(n => n.toLowerCase() === riggedWinner.toLowerCase());
+
     if (winnerIndex === -1) {
-      alert("Rigged winner not in list!");
+      const container = document.getElementById('angryContainer');
+      container.style.display = 'block';
+      setTimeout(() => {
+        container.style.display = 'none';
+      }, 3000);
       return;
     }
 
@@ -187,7 +224,7 @@
     document.getElementById('winnerDisplay').textContent = `Winner: ${winner}`;
     triggerConfetti();
 
-    if (winner.toLowerCase() === riggedWinner) {
+    if (winner.toLowerCase() === riggedWinner.toLowerCase()) {
       const img = document.getElementById('winnerImage');
       img.classList.add('show');
       setTimeout(() => {
